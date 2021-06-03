@@ -1,12 +1,14 @@
 import axios from 'axios'
+import queryString from 'query-string'
 
 const SET_LISTINGS = 'SET_LISTINGS'
 
 const setListings = fetchedListings => ({type: SET_LISTINGS, fetchedListings})
 
-export const fetchListings = () => async dispatch => {
+export const fetchListings = filterOptions => async dispatch => {
+  const params = queryString.parse(filterOptions)
   try {
-    const {data} = await axios.get('/api/listings')
+    const {data} = await axios.get('/api/listings', {params})
     dispatch(setListings(data))
   } catch (err) {
     console.log(err)

@@ -4,6 +4,10 @@ const {Listing, Event, Skill} = require('../db/models')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
+  const searchBySkill = req.query.skill && {id: req.query.skill}
+  const searchByLocation = req.query.location && {
+    location: {[Op.iLike]: `%${req.query.location}%`}
+  }
   try {
     const listings = await Listing.findAll({
       where: {
@@ -14,10 +18,12 @@ router.get('/', async (req, res, next) => {
       include: [
         {
           model: Skill,
-          as: 'role'
+          as: 'role',
+          where: searchBySkill
         },
         {
           model: Event,
+          where: searchByLocation,
           attributes: ['id', 'location', 'date', 'eventTypeId']
         }
       ]
