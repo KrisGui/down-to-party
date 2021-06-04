@@ -4,6 +4,7 @@
  * having to figure out which file they belong to!
  */
 export {default as Navbar} from './navbar'
+export {default as User} from './users/user'
 export {default as UserHome} from './user-home'
 export {default as UserProfile} from './users/user-profile'
 export {default as UserForm} from './users/user-form'
@@ -14,6 +15,4 @@ export {default as SingleEvent} from './events/single-event'
 export {default as Events} from './events/events'
 export {default as Listings} from './listings/listings'
 export {default as Listing} from './listings/listing'
-export {default as Skills} from './skills/skills'
-export {default as Skill} from './skills/skill'
 export {Login, Signup} from './auth-form'

@@ -16,6 +16,15 @@ export const fetchUsers = () => async dispatch => {
   }
 }
 
+export const fetchUser = userId => async dispatch => {
+  try {
+    const {data} = await axios.get(`/api/users/${userId}`)
+    dispatch(setUsers(data))
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 export default (state = [], action) => {
   switch (action.type) {
     case SET_USERS:

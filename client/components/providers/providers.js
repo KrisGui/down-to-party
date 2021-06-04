@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {fetchProviders} from '../../store/providers'
 import Filters from '../util/filters'
-import Profile from '../util/profile'
+import ProfileCard from '../util/profile-card'
 
 export default function Providers({history, location}) {
   const dispatch = useDispatch()
@@ -24,15 +24,15 @@ export default function Providers({history, location}) {
           {providers ? (
             providers.length ? (
               providers.map(({id, profile}) => (
-                <Profile key={id} profile={profile} photoSize={75}>
+                <ProfileCard key={id} profile={profile} photoSize={75}>
                   <Card.Title>
-                    <Link to={`/providers/${id}`}>
+                    <Link to={`/users/${profile.id}`}>
                       {profile.firstName + ' ' + profile.lastName}
                     </Link>
                   </Card.Title>
                   Location:{' '}
                   {profile.location ? profile.location : 'Unspecified'}
-                </Profile>
+                </ProfileCard>
               ))
             ) : (
               <p>There are no providers</p>

@@ -13,28 +13,28 @@ import moment from 'moment'
 export class UserHome extends React.Component {
   constructor(props) {
     super(props)
-    this.handleEventStaff = this.handleEventStaff.bind(this)
+    // this.handleEventStaff = this.handleEventStaff.bind(this)
   }
   componentDidMount() {
     this.props.getCurrentUser(this.props.user.id)
   }
-  handleEventStaff(e, userId) {
-    const {skills} = this.props.user
-    let eventSkill
-    if (e.workers && e.workers.length) {
-      eventSkill = e.workers.find(({id}) => id === userId)
-      if (eventSkill) {
-        eventSkill = eventSkill.event_staff.skillId
-      }
-      if (skills && skills.length) {
-        const currentSkill = skills.find(({id}) => id === eventSkill)
-        if (currentSkill) {
-          return currentSkill.title
-        }
-      }
-    }
-    return 'No Skills found'
-  }
+  // handleEventStaff(e, userId) {
+  //   const {skills} = this.props.user
+  //   let eventSkill
+  //   if (e.workers && e.workers.length) {
+  //     eventSkill = e.workers.find(({id}) => id === userId)
+  //     if (eventSkill) {
+  //       eventSkill = eventSkill.event_staff.skillId
+  //     }
+  //     if (skills && skills.length) {
+  //       const currentSkill = skills.find(({id}) => id === eventSkill)
+  //       if (currentSkill) {
+  //         return currentSkill.title
+  //       }
+  //     }
+  //   }
+  //   return 'No Skills found'
+  // }
 
   render() {
     const {user: {email, location, id, skills, events}, event} = this.props
@@ -53,8 +53,8 @@ export class UserHome extends React.Component {
                   Interested in offering your services for an Event? Be sure to
                   take advantage of our wide network to showcase your skills!
                 </Card.Text>
-                <Button as={Link} to={`/users/${id}/profile`}>
-                  Edit Your Profile
+                <Button as={Link} to={`/users/${id}`}>
+                  View Your Profile
                 </Button>
               </Card.Body>
             </Card>

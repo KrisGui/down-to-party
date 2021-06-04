@@ -1,17 +1,13 @@
 import React from 'react'
 import {Card, Image, Media} from 'react-bootstrap'
 
-export default function Profile({
-  profile: {id, firstName, lastName, photoURL},
+export default function ProfileCard({
+  profile: {firstName, lastName, photoURL},
   photoSize,
   children
 }) {
   return (
-    <Card
-      key={`profile-${id}`}
-      className="profile center w-90 p-3"
-      style={{marginBottom: 10}}
-    >
+    <Card className="profile center w-90 p-3" style={{marginBottom: 10}}>
       <Media style={{marginBottom: 10}}>
         <Image
           width={photoSize}

@@ -1,49 +1,28 @@
-import React, {useState, useEffect} from 'react'
-import {useSelector, useDispatch} from 'react-redux'
-import {fetchAllSkills} from '../../store/skill'
-import {updateUser} from '../../store/user'
-import Container from 'react-bootstrap/Container'
-import Card from 'react-bootstrap/Card'
-import Media from 'react-bootstrap/Media'
-import Image from 'react-bootstrap/Image'
-import Form from 'react-bootstrap/Form'
-import Accordion from 'react-bootstrap/Accordion'
-import Button from 'react-bootstrap/Button'
-import Row from 'react-bootstrap/Row'
-import Tab from 'react-bootstrap/Tab'
-import Col from 'react-bootstrap/Col'
-import Nav from 'react-bootstrap/Nav'
-import {createProvider} from '../../store/providers'
+import React, {useState} from 'react'
+import {
+  Button,
+  Card,
+  Col,
+  Container,
+  Form,
+  Image,
+  Media,
+  Nav,
+  Row,
+  Tab
+} from 'react-bootstrap'
+import {useDispatch, useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
+import {createProvider} from '../../store/providers'
+import {updateUser} from '../../store/user'
 
 export default function UserForm({history}) {
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    dispatch(fetchAllSkills())
-  }, [])
-
   const user = useSelector(state => state.user)
-  const skills = useSelector(state => state.skills)
   const [inputs, setInputs] = useState({
     photoURL: '',
     location: ''
   })
-  const [skillIds, setSkillIds] = useState([])
-
-  useEffect(
-    () => {
-      if (user.skills && user.skills.length) {
-        setSkillIds(
-          user.skills.reduce(
-            (skillsArr, currSkill) => [...skillsArr, currSkill.id],
-            []
-          )
-        )
-      }
-    },
-    [user]
-  )
 
   const handleInput = e => {
     setInputs({
@@ -52,32 +31,13 @@ export default function UserForm({history}) {
     })
   }
 
-  const handleSwitch = (e, skill) => {
-    const id = parseInt(e.target.id, 10)
-    if (skillIds.includes(id)) {
-      user.skills = user.skills.filter(userSkill => skill.id !== userSkill.id)
-      setSkillIds(skillIds.filter(skillId => skillId !== id))
-    } else {
-      user.skills = [...user.skills, skill]
-      setSkillIds([...skillIds, id])
-    }
-  }
-
   const handleSubmit = e => {
     e.preventDefault()
 
     if (inputs.photoURL === '') inputs.photoURL = user.photoURL
     if (inputs.location === '') inputs.location = user.location
 
-    dispatch(
-      updateUser(
-        {
-          ...inputs,
-          skillIds
-        },
-        user.id
-      )
-    )
+    dispatch(updateUser({...inputs}, user.id))
 
     history.push(`/users/${user.id}/profile`)
   }
@@ -123,9 +83,7 @@ export default function UserForm({history}) {
                     <Media.Body>
                       <Form>
                         <Form.Group controlId="photoURL">
-                          <Form.Label size="sm">
-                            URL to your profile picture:
-                          </Form.Label>
+                          <Form.Label>URL to your profile picture:</Form.Label>
                           <Form.Control
                             type="text"
                             placeholder="https://www.example.com/your-photo"
@@ -134,7 +92,7 @@ export default function UserForm({history}) {
                           />
                         </Form.Group>
                         <Form.Group controlId="location">
-                          <Form.Label size="sm">Location:</Form.Label>
+                          <Form.Label>Location:</Form.Label>
                           <Form.Control
                             type="text"
                             placeholder={
@@ -149,36 +107,6 @@ export default function UserForm({history}) {
                       </Form>
                     </Media.Body>
                   </Media>
-                  <div>
-                    <Accordion style={{marginBottom: 10}}>
-                      <Card>
-                        <Accordion.Toggle as={Card.Header} eventKey="0">
-                          Select skills to track jobs...
-                        </Accordion.Toggle>
-                        <Accordion.Collapse eventKey="0">
-                          <Card.Body className="user-form p-0">
-                            {skills && skills.length ? (
-                              skills.map(skill => (
-                                <Card key={skill.id}>
-                                  <Card.Body>
-                                    {skill.title}
-                                    <Form.Switch
-                                      id={skill.id}
-                                      className="float-right"
-                                      checked={skillIds.includes(skill.id)}
-                                      onChange={e => handleSwitch(e, skill)}
-                                    />
-                                  </Card.Body>
-                                </Card>
-                              ))
-                            ) : (
-                              <p>Loading...</p>
-                            )}
-                          </Card.Body>
-                        </Accordion.Collapse>
-                      </Card>
-                    </Accordion>
-                  </div>
                   <div>
                     <Button
                       onClick={e => handleSubmit(e)}

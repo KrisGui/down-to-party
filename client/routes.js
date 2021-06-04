@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import {
   Login,
   Signup,
+  User,
   UserHome,
   UserProfile,
   UserForm,
@@ -14,8 +15,6 @@ import {
   SingleEvent,
   Listings,
   Listing,
-  Skills,
-  Skill,
   Provider
 } from './components'
 import {me} from './store'
@@ -43,20 +42,20 @@ class Routes extends Component {
               <Redirect to="/home" />
             </Route>
             <Route path="/home" component={UserHome} />
-            <Route exact path="/users/:id/profile" component={UserProfile} />
-            <Route path="/users/:id/profile/edit" component={UserForm} />
+            <Route exact path="/users/:userId" component={User} />
+            {/* <Route exact path="/users/:id/profile" component={UserProfile} /> */}
+            {/* <Route path="/users/:id/profile/edit" component={UserForm} /> */}
             <Route exact path="/providers" component={Providers} />
-            <Route path="/providers/:providerId" component={Provider} />
+            {/* <Route path="/providers/:providerId" component={Provider} /> */}
             <Route exact path="/events" component={Events} />
             <Route path="/events/new" component={EventForm} />
             <Route path="/events/:id" component={SingleEvent} />
             <Route exact path="/listings" component={Listings} />
             <Route path="/listings/:listingId" component={Listing} />
-            <Route exact path="/skills" component={Skills} />
-            <Route path="/skills/:id" component={Skill} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
+        <Route exact path="/providers" component={Providers} />
         <Route component={Login} />
       </Switch>
     )
